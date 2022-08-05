@@ -6,6 +6,13 @@ const app = express();
 require("dotenv").config({ path: "./config/config.env" });
 const PORT = process.env.PORT || 5000;
 
+// Passport config
+const passport = require("passport");
+require("./config/passport")(passport);
+
+// Sessions
+const session = require("express-session");
+
 // Database connection
 const connectDB = require("./config/db");
 connectDB();
@@ -25,8 +32,25 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Sessions
+app.use(
+  session({
+    secret: "super secret signal",
+    // Don't save a session if nothing is modified
+    resave: false,
+    // Don't create a session until something is stored
+    saveUninitialized: false,
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Mommy, where do routes come from?
 app.use("/", require("./routes/index"));
+
+app.use("/auth", require("./routes/auth"));
 
 app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
