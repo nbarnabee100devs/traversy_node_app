@@ -7,6 +7,7 @@ require("dotenv").config({ path: "./config/config.env" });
 const PORT = process.env.PORT || 5000;
 
 // DB connection (note for the future:  db.client is what I need to prepend all the database stuff with
+// If need be I can come back and redo all of this with Mongoose
 const db = require("./config/db");
 db.connectDB();
 
