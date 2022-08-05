@@ -8,7 +8,7 @@ const router = express.Router();
 // Note that I must specify the layout, since I did not define it globally in app.js
 
 router.get("/", (req, res) => {
-  res.render("login.ejs", { layout: "./layouts/main" });
+  res.render("login.ejs", { layout: "./layouts/login" });
 });
 
 // Dashboard
