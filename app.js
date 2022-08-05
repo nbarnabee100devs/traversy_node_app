@@ -6,10 +6,9 @@ const app = express();
 require("dotenv").config({ path: "./config/config.env" });
 const PORT = process.env.PORT || 5000;
 
-// DB connection (note for the future:  db.client is what I need to prepend all the database stuff with
-// If need be I can come back and redo all of this with Mongoose
-const db = require("./config/db");
-db.connectDB();
+// Database connection
+const connectDB = require("./config/db");
+connectDB();
 
 // sets up logging in the console window, but only while in development mode
 const morgan = require("morgan");
@@ -32,3 +31,9 @@ app.use("/", require("./routes/index"));
 app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
+
+/* DB connection for when I was trying to work with vanilla MongoDB.  If I had continued this route, db.client would have given me access to the database methods. */
+/*
+const db = require("./config/db");
+db.connectDB();
+*/
