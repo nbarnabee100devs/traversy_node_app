@@ -12,7 +12,7 @@ router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 // Google auth callback
 // GET /auth/google/callback
-// The passport.authenticate is acting as middleware here
+// The passport.authenticate method is acting as middleware here
 
 router.get(
   "/google/callback",
@@ -21,5 +21,14 @@ router.get(
     res.redirect("/dashboard");
   }
 );
+
+// Logout user
+// /GET  /auth/logout
+// Passport attaches a logout method on the request object once we've logged in, and that's what we call here.
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 
 module.exports = router;
