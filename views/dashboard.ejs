@@ -1,1 +1,34 @@
-<h1>Dashboard</h1>
+<h6>Dashboard</h6>
+<h3>Welcome, <%= name %> </h3>
+
+<% if (stories.length > 0) { %>
+<table class="striped">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Date</th>
+      <th scope="col">Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% stories.forEach(element => { %>
+    <tr>
+      <td><a href="/stories/<%= element._id %>"><%= element.title %> </a></td>
+      <td><%= element.createdAt %></td>
+      <td><span class="dash-status"><%= element.status %> </span></td>
+      <td>
+      </td>
+    </tr>
+
+  </tbody>
+
+</table>
+
+
+<% })} else %>
+<p>It looks like you haven't added any stories.</p>
+
+<div class="fixed-action-btn">
+  <a href="/stories/add" class="btn-floating btn-large waves-effect waves-light red"><i class="fas fa-plus"></i></a>
+</div>
