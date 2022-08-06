@@ -25,10 +25,13 @@ router.get(
 // Logout user
 // /GET  /auth/logout
 // Passport attaches a logout method on the request object once we've logged in, and that's what we call here.
+// Invoking logout() will remove the req.user property and clear the login session
 
 router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
+  req.logout(function (err) {
+    if (err) return next(err);
+    res.redirect("/");
+  });
 });
 
 module.exports = router;
