@@ -6,13 +6,6 @@ const app = express();
 require("dotenv").config({ path: "./config/config.env" });
 const PORT = process.env.PORT || 5000;
 
-// Passport config
-const passport = require("passport");
-require("./config/passport")(passport);
-
-// Sessions
-const session = require("express-session");
-
 // Database connection
 const connectDB = require("./config/db");
 connectDB();
@@ -27,12 +20,14 @@ if (process.env.NODE_ENV === "development") {
 const expressLayouts = require("express-ejs-layouts");
 app.use(expressLayouts);
 app.set("view engine", "ejs");
-app.set("views");
+app.set("views"); // Here is where I could specify another location for the "views" documents
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Sessions
+// Sessions & session storage
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 app.use(
   session({
     secret: "super secret signal",
@@ -40,16 +35,23 @@ app.use(
     resave: false,
     // Don't create a session until something is stored
     saveUninitialized: false,
+    // store the session token in the database
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_STRING,
+      // autodelete the token when the session is finished
+      autoRemove: "native",
+    }),
   })
 );
 
-// Passport middleware
+// Passport config & taking into use
+const passport = require("passport");
+require("./config/passport")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Mommy, where do routes come from?
 app.use("/", require("./routes/index"));
-
 app.use("/auth", require("./routes/auth"));
 
 app.listen(PORT, () => {
