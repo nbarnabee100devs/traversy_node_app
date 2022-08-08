@@ -12,8 +12,8 @@
         <p><%= element.body %></p>
         <br>
         <div class="chip">
-          <img src="<%= user.image %>" alt="">
-          <a href="/user/<%= user.id %>"></a>
+          <img src="<%= element.user.image %>" alt="">
+          <a href="/user/<%= element.user._id %>"><%= element.user.displayName %></a>
         </div>
       </div>
       <div class="card-action center-align">
