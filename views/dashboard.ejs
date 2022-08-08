@@ -15,7 +15,7 @@
     <% stories.forEach(element => { %>
     <tr>
       <td><a href="/stories/<%= element._id %>"><%= element.title %> </a></td>
-      <td><%= element.createdAt %></td>
+      <td><%= element.createdAt.toDateString() %></td>
       <td><span class="dash-status"><%= element.status %> </span></td>
       <td>
       </td>
