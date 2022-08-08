@@ -11,7 +11,7 @@ const Story = require("../models/Story");
 router.get("/", ensureAuth, async (req, res) => {
   try {
     let stories = await Story.find({ status: "public" })
-      .populate("user")
+      .populate("user") // adds the key/values of the associated user documents to the story documents
       .sort({ createdAt: -1 })
       .lean();
     console.log(stories);
