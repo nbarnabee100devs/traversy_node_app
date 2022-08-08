@@ -5,12 +5,15 @@ const router = express.Router();
 const { ensureAuth } = require("../middleware/auth");
 const Story = require("../models/Story");
 
-// Add route to the public stories page
+// Add route to the "Show all stories" page
 // GET /stories (recall that the "stories") is implied; if it wasn't "stories" these routes wouldn't be getting called in the first place
 
 router.get("/", ensureAuth, async (req, res) => {
   try {
-    let stories = await Story.find().lean();
+    let stories = await Story.find({ status: "public" })
+      .populate("user")
+      .sort({ createdAt: -1 })
+      .lean();
     console.log(stories);
     res.render("./stories/index.ejs", {
       layout: "./layouts/main.ejs",
@@ -19,10 +22,7 @@ router.get("/", ensureAuth, async (req, res) => {
   } catch (error) {
     console.log(error);
     let stories = [];
-    res.render("./stories/index.ejs", {
-      layout: "./layouts/main.ejs",
-      stories,
-    });
+    res.render("error/500", { layout: "./layouts/main.ejs" });
   }
 });
 
