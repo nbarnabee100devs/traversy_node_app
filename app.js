@@ -25,6 +25,11 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Helper functions for use in dealing with the stories
+// const {truncate, stripTags} = require("./helpers/helpers.js");
+app.locals.truncate = require("./helpers/helpers.js");
+app.locals.stripTags = require("./helpers/helpers.js");
+
 // Sessions & session storage
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
